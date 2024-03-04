@@ -1,13 +1,48 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import '../../common/component/custom_text_form_field.dart';
 import '../../common/const/colors.dart';
 import '../../common/layout/default_layout.dart';
+import '../../common/view/root_tab.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String username = '';
+  String password = '';
+
+  @override
   Widget build(BuildContext context) {
+    final dio = Dio();
+
+    final emulatorIp = '10.0.2.2:3000';
+    final simulatorIp = '127.0.0.1:3000';
+    final webIp = 'localhost:3000';
+
+    String ip;
+
+    if (kIsWeb) {
+      ip = webIp;
+      if (kDebugMode) {
+        print(ip);
+      }
+    } else {
+      ip = Platform.isAndroid ? emulatorIp : Platform.isIOS ? simulatorIp : '';
+      if (kDebugMode) {
+        print(ip);
+      }
+    }
+
     return DefaultLayout(
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -28,17 +63,50 @@ class LoginScreen extends StatelessWidget {
                 ),
                 CustomTextFormField(
                   hintText: '이메일을 입력해주세요.',
-                  onChanged: (String value) {},
+                  onChanged: (String value) {
+                    username = value;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFormField(
                   hintText: '비밀번호를 입력해주세요.',
-                  onChanged: (String value) {},
+                  onChanged: (String value) {
+                    password = value;
+                  },
                   obscureText: true,
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // ID:비밀번호
+                    final rawString = '$username:$password';
+
+                    if (kDebugMode) {
+                      print(rawString);
+                    }
+
+                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+
+                    String token = stringToBase64.encode(rawString);
+
+                    final resp = await dio.post(
+                      'http://$ip/auth/login',
+                      options: Options(
+                        headers: {
+                          'authorization': 'Basic $token',
+                        },
+                      ),
+                    );
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => RootTab(),
+                      ),
+                    );
+                    if (kDebugMode) {
+                      print(resp.data);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: PRIMARY_COLOR,
                   ),
@@ -47,7 +115,21 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final refreshToken =
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY1Nzg1MTA3MiwiZXhwIjoxNjU3OTM3NDcyfQ.E0z7pf-nGdH5nEhGiew0SOBzM1ja69Fb1zVQ-8C4sFE';
+
+                    final resp = await dio.post(
+                      'http://$ip/auth/token',
+                      options: Options(
+                        headers: {
+                          'authorization': 'Bearer $refreshToken',
+                        },
+                      ),
+                    );
+
+                    print(resp.data);
+                  },
                   style: TextButton.styleFrom(
                     primary: Colors.black,
                   ),
