@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../common/const/data.dart';
 import '../component/restaurant_card.dart';
+import '../model/restaurant_model.dart';
 
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({Key? key}) : super(key: key);
@@ -32,40 +33,42 @@ class RestaurantScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: FutureBuilder<List>(
               future: paginateRestaurant(),
-              builder: (context, AsyncSnapshot<List> snapshot){
-                if(!snapshot.hasData){
+              builder: (context, AsyncSnapshot<List> snapshot) {
+                if (!snapshot.hasData) {
                   return Container();
                 }
 
                 return ListView.separated(
                   itemCount: snapshot.data!.length,
-                  itemBuilder: (_, index){
+                  itemBuilder: (_, index) {
                     final item = snapshot.data![index];
+                    final pItem = RestaurantModel.fromJson(
+                      json: item,
+                    );
 
                     return RestaurantCard(
                       image: Image.network(
-                        'http://$ip${item['thumbUrl']}',
+                        pItem.thumbUrl,
                         fit: BoxFit.cover,
                       ),
                       // image: Image.asset(
                       //   'asset/img/food/ddeok_bok_gi.jpg',
                       //   fit: BoxFit.cover,
                       // ),
-                      name: item['name'],
-                      tags: List<String>.from(item['tags']),
-                      ratingsCount: item['ratingsCount'],
-                      deliveryTime: item['deliveryTime'],
-                      deliveryFee: item['deliveryFee'],
-                      ratings: item['ratings'],
+                      name: pItem.name,
+                      tags: pItem.tags,
+                      ratingsCount: pItem.ratingsCount,
+                      deliveryTime: pItem.deliveryTime,
+                      deliveryFee: pItem.deliveryFee,
+                      ratings: pItem.ratings,
                     );
                   },
-                  separatorBuilder: (_, index){
-                    return const SizedBox(height: 16.0);
+                  separatorBuilder: (_, index) {
+                    return SizedBox(height: 16.0);
                   },
                 );
               },
-            )
-        ),
+            )),
       ),
     );
   }
