@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../restaurant/view/restaurant_screen.dart';
 import '../const/colors.dart';
 import '../layout/default_layout.dart';
 
@@ -46,7 +47,7 @@ class _RootTabState extends State<RootTab>
         physics: NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
-          Center(child: Container(child: Text('홈'))),
+          RestaurantScreen(),
           Center(child: Container(child: Text('음식'))),
           Center(child: Container(child: Text('주문'))),
           Center(child: Container(child: Text('프로필'))),
