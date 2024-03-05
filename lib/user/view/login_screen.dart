@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../common/component/custom_text_form_field.dart';
 import '../../common/const/colors.dart';
+import '../../common/const/data.dart';
 import '../../common/layout/default_layout.dart';
 import '../../common/view/root_tab.dart';
 
@@ -81,10 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     // ID:비밀번호
                     final rawString = '$username:$password';
 
-                    if (kDebugMode) {
-                      print(rawString);
-                    }
-
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
                     String token = stringToBase64.encode(rawString);
@@ -98,19 +95,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
 
+                    final refreshToken = resp.data['refreshToken'];
+                    final accessToken = resp.data['accessToken'];
+
+                    await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                    await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => RootTab(),
                       ),
                     );
-                    if (kDebugMode) {
-                      print(resp.data);
-                    }
                   },
                   style: ElevatedButton.styleFrom(
                     primary: PRIMARY_COLOR,
                   ),
-                  child: Text(
+                  child: const Text(
                     '로그인',
                   ),
                 ),
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextButton.styleFrom(
                     primary: Colors.black,
                   ),
-                  child: Text(
+                  child: const Text(
                     '회원가입',
                   ),
                 ),
@@ -151,7 +151,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       '환영합니다!',
       style: TextStyle(
         fontSize: 34,
@@ -167,7 +167,7 @@ class _SubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       '이메일과 비밀번호를 입력해서 로그인 해주세요!\n오늘도 성공적인 주문이 되길 :)',
       style: TextStyle(
         fontSize: 16,
