@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_deliver_app/restaurant/view/restaurant_detail_screen.dart';
 
 import '../../common/const/data.dart';
 import '../component/restaurant_card.dart';
@@ -46,21 +47,17 @@ class RestaurantScreen extends StatelessWidget {
                       json: item,
                     );
 
-                    return RestaurantCard(
-                      image: Image.network(
-                        pItem.thumbUrl,
-                        fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => RestaurantDetailScreen(),
+                          ),
+                        );
+                      },
+                      child: RestaurantCard.fromModel(
+                        model: pItem,
                       ),
-                      // image: Image.asset(
-                      //   'asset/img/food/ddeok_bok_gi.jpg',
-                      //   fit: BoxFit.cover,
-                      // ),
-                      name: pItem.name,
-                      tags: pItem.tags,
-                      ratingsCount: pItem.ratingsCount,
-                      deliveryTime: pItem.deliveryTime,
-                      deliveryFee: pItem.deliveryFee,
-                      ratings: pItem.ratings,
                     );
                   },
                   separatorBuilder: (_, index) {
