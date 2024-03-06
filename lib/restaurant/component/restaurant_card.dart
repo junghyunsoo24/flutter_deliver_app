@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common/const/colors.dart';
+import '../model/restaurant_detail_model.dart';
 import '../model/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
@@ -60,6 +61,7 @@ class RestaurantCard extends StatelessWidget {
       deliveryFee: model.deliveryFee,
       ratings: model.ratings,
       isDetail: isDetail,
+      detail: model is RestaurantDetailModel ? model.detail : null,
     );
   }
 
@@ -81,7 +83,7 @@ class RestaurantCard extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -89,7 +91,7 @@ class RestaurantCard extends StatelessWidget {
               const SizedBox(height: 8.0),
               Text(
                 tags.join(' · '),
-                style: TextStyle(
+                style: const TextStyle(
                   color: BODY_TEXT_COLOR,
                   fontSize: 14.0,
                 ),
@@ -118,7 +120,7 @@ class RestaurantCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if(detail != null && isDetail)
+              if (detail != null && isDetail)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(detail!),
@@ -131,8 +133,8 @@ class RestaurantCard extends StatelessWidget {
   }
 
   Widget renderDot() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
       child: Text(
         '·',
         style: TextStyle(
@@ -163,7 +165,7 @@ class _IconText extends StatelessWidget {
         const SizedBox(width: 8.0),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12.0,
             fontWeight: FontWeight.w500,
           ),
