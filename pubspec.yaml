@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^5.4.1
   flutter_secure_storage: ^9.0.0
+  json_annotation: ^4.8.1
+  retrofit: ^4.1.0
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deliver_app/restaurant/view/restaurant_detail_screen.dart';
 
+
 import '../../common/const/data.dart';
 import '../component/restaurant_card.dart';
 import '../model/restaurant_model.dart';
@@ -46,7 +47,7 @@ class RestaurantScreen extends StatelessWidget {
                   itemBuilder: (_, index) {
                     final item = snapshot.data![index];
                     final pItem = RestaurantModel.fromJson(
-                      json: item,
+                      item,
                     );
 
                     return GestureDetector(

@@ -23,5 +23,4 @@ String getIp() {
 }
 final ip = getIp();
 
-
 const storage = FlutterSecureStorage();
