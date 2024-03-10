@@ -7,14 +7,14 @@ part of 'restaurant_detail_model.dart';
 // **************************************************************************
 
 RestaurantDetailModel _$RestaurantDetailModelFromJson(
-    Map<String, dynamic> json) =>
+        Map<String, dynamic> json) =>
     RestaurantDetailModel(
       id: json['id'] as String,
       name: json['name'] as String,
       thumbUrl: DataUtils.pathToUrl(json['thumbUrl'] as String),
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       priceRange:
-      $enumDecode(_$RestaurantPriceRangeEnumMap, json['priceRange']),
+          $enumDecode(_$RestaurantPriceRangeEnumMap, json['priceRange']),
       ratings: (json['ratings'] as num).toDouble(),
       ratingsCount: json['ratingsCount'] as int,
       deliveryTime: json['deliveryTime'] as int,
@@ -27,7 +27,7 @@ RestaurantDetailModel _$RestaurantDetailModelFromJson(
     );
 
 Map<String, dynamic> _$RestaurantDetailModelToJson(
-    RestaurantDetailModel instance) =>
+        RestaurantDetailModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -49,7 +49,7 @@ const _$RestaurantPriceRangeEnumMap = {
 };
 
 RestaurantProductModel _$RestaurantProductModelFromJson(
-    Map<String, dynamic> json) =>
+        Map<String, dynamic> json) =>
     RestaurantProductModel(
       id: json['id'] as String,
       name: json['name'] as String,
@@ -59,7 +59,7 @@ RestaurantProductModel _$RestaurantProductModelFromJson(
     );
 
 Map<String, dynamic> _$RestaurantProductModelToJson(
-    RestaurantProductModel instance) =>
+        RestaurantProductModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

@@ -13,7 +13,7 @@ RestaurantModel _$RestaurantModelFromJson(Map<String, dynamic> json) =>
       thumbUrl: DataUtils.pathToUrl(json['thumbUrl'] as String),
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       priceRange:
-      $enumDecode(_$RestaurantPriceRangeEnumMap, json['priceRange']),
+          $enumDecode(_$RestaurantPriceRangeEnumMap, json['priceRange']),
       ratings: (json['ratings'] as num).toDouble(),
       ratingsCount: json['ratingsCount'] as int,
       deliveryTime: json['deliveryTime'] as int,
