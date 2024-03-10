@@ -41,6 +41,7 @@ dependencies:
   retrofit: ^4.1.0
   logger: ^2.1.0
   flutter_riverpod: ^1.0.4
+  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletons/skeletons.dart';
 import '../../common/layout/default_layout.dart';
 import '../../product/component/product_card.dart';
+import '../../rating/component/rating_card.dart';
 import '../component/restaurant_card.dart';
 import '../model/restaurant_detail_model.dart';
 import '../model/restaurant_model.dart';
@@ -48,12 +50,52 @@ class _RestaurantDetailScreenState
           renderTop(
             model: state,
           ),
+          if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel)
             renderProducts(
               products: state.products,
             ),
+          const SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            sliver: SliverToBoxAdapter(
+              child: RatingCard(
+                rating: 4,
+                email: 'jc@codefactory.ai',
+                images: [],
+                avatarImage: AssetImage(
+                    'asset/img/logo/codefactory_logo.png'
+                ),
+                content: '맛있습니다.',
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  SliverPadding renderLoading() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: 16.0,
+      ),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          List.generate(
+            3,
+                (index) => Padding(
+              padding: const EdgeInsets.only(bottom: 32.0),
+              child: SkeletonParagraph(
+                style: const SkeletonParagraphStyle(
+                  lines: 5,
+                  padding: EdgeInsets.zero,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
