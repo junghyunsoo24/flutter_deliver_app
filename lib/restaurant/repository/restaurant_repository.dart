@@ -4,6 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import '../../common/const/data.dart';
 import '../../common/dio/dio.dart';
 import '../../common/model/cursor_pagination_model.dart';
+import '../../common/model/pagination_params.dart';
 import '../model/restaurant_detail_model.dart';
 import '../model/restaurant_model.dart';
 
@@ -13,7 +14,8 @@ final restaurantRepositoryProvider = Provider<RestaurantRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
 
-    final repository = RestaurantRepository(dio, baseUrl: 'http://$ip/restaurant');
+    final repository =
+    RestaurantRepository(dio, baseUrl: 'http://$ip/restaurant');
 
     return repository;
   },
@@ -30,7 +32,9 @@ abstract class RestaurantRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<CursorPagination<RestaurantModel>> paginate();
+  Future<CursorPagination<RestaurantModel>> paginate({
+    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  });
 
   // http://$ip/restaurant/:id
   @GET('/{id}')
