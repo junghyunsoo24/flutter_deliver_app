@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'product_repository.dart';
+part of 'user_me_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'product_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _ProductRepository implements ProductRepository {
-  _ProductRepository(
+class _UserMeRepository implements UserMeRepository {
+  _UserMeRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,17 +19,14 @@ class _ProductRepository implements ProductRepository {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<ProductModel>> paginate(
-      {PaginationParams? paginationParams = const PaginationParams()}) async {
+  Future<UserModel> getMe() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(paginationParams?.toJson() ?? <String, dynamic>{});
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CursorPagination<ProductModel>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,10 +42,7 @@ class _ProductRepository implements ProductRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CursorPagination<ProductModel>.fromJson(
-      _result.data!,
-      (json) => ProductModel.fromJson(json as Map<String, dynamic>),
-    );
+    final value = UserModel.fromJson(_result.data!);
     return value;
   }
 

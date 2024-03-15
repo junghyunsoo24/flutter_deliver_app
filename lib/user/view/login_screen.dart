@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../common/component/custom_text_form_field.dart';
 import '../../common/const/colors.dart';
 import '../../common/const/data.dart';
@@ -41,7 +38,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               children: [
                 _Title(),
                 const SizedBox(height: 16.0),
-                _SubTitle(),
+                const _SubTitle(),
                 Image.asset(
                   'asset/img/misc/logo.png',
                   width: MediaQuery.of(context).size.width / 3 * 2,
@@ -89,7 +86,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => RootTab(),
+                        builder: (_) => const RootTab(),
                       ),
                     );
                   },

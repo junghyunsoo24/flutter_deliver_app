@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deliver_app/common/view/root_tab.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../user/view/login_screen.dart';
 import '../const/colors.dart';
 import '../const/data.dart';
@@ -54,14 +53,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (_) => RootTab(),
+          builder: (_) => const RootTab(),
         ),
             (route) => false,
       );
     } catch (e) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (_) => LoginScreen(),
+          builder: (_) => const LoginScreen(),
         ),
             (route) => false,
       );

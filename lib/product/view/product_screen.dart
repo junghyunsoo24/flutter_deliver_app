@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../common/component/pagination_list.view.dart';
 import '../../restaurant/view/restaurant_detail_screen.dart';
