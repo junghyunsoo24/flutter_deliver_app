@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import '../../common/view/root_tab.dart';
 import '../../common/view/splash_screen.dart';
+import '../../order/view/order_done_screen.dart';
 import '../../restaurant/view/basket_screen.dart';
 import '../../restaurant/view/restaurant_detail_screen.dart';
 import '../model/user_model.dart';
@@ -50,6 +51,11 @@ class AuthProvider extends ChangeNotifier {
       builder: (_, state) => const BasketScreen(),
     ),
     GoRoute(
+      path: '/order_done',
+      name: OrderDoneScreen.routeName,
+      builder: (_, state) => const OrderDoneScreen(),
+    ),
+    GoRoute(
       path: '/splash',
       name: SplashScreen.routeName,
       builder: (_, __) => const SplashScreen(),
@@ -57,7 +63,7 @@ class AuthProvider extends ChangeNotifier {
     GoRoute(
       path: '/login',
       name: LoginScreen.routeName,
-      builder: (_, __) => const LoginScreen(),
+      builder: (_, __) => LoginScreen(),
     ),
   ];
 
