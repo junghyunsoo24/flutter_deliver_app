@@ -57,7 +57,7 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
 
     // 완전 처음 로딩일때
     if (state is CursorPaginationLoading) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }
@@ -80,7 +80,7 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
               );
             },
             child: const Text(
-              '다시시도',
+              '다시 시도',
             ),
           ),
         ],
@@ -95,35 +95,43 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ListView.separated(
-        controller: controller,
-        itemCount: cp.data.length + 1,
-        itemBuilder: (_, index) {
-          if (index == cp.data.length) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              child: Center(
-                child: cp is CursorPaginationFetchingMore
-                    ? CircularProgressIndicator()
-                    : const Text('마지막 데이터입니다 ㅠㅠ'),
-              ),
-            );
-          }
-
-          final pItem = cp.data[index];
-
-          return widget.itemBuilder(
-            context,
-            index,
-            pItem,
+      child: RefreshIndicator(
+        onRefresh: ()async{
+          ref.read(widget.provider.notifier).paginate(
+            forceRefetch: true,
           );
         },
-        separatorBuilder: (_, index) {
-          return SizedBox(height: 16.0);
-        },
+        child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: controller,
+          itemCount: cp.data.length + 1,
+          itemBuilder: (_, index) {
+            if (index == cp.data.length) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Center(
+                  child: cp is CursorPaginationFetchingMore
+                      ? const CircularProgressIndicator()
+                      : const Text('마지막 데이터입니다 ㅠㅠ'),
+                ),
+              );
+            }
+
+            final pItem = cp.data[index];
+
+            return widget.itemBuilder(
+              context,
+              index,
+              pItem,
+            );
+          },
+          separatorBuilder: (_, index) {
+            return const SizedBox(height: 16.0);
+          },
+        ),
       ),
     );
   }

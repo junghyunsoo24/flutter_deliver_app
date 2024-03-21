@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../user/provider/auth_provider.dart';
 import '../const/data.dart';
 import '../secure_storage/secure_storage.dart';
 
@@ -12,7 +13,10 @@ final dioProvider = Provider<Dio>((ref) {
   final storage = ref.watch(secureStorageProvider);
 
   dio.interceptors.add(
-    CustomInterceptor(storage: storage),
+    CustomInterceptor(
+      storage: storage,
+      ref: ref,
+    ),
   );
 
   return dio;
@@ -20,9 +24,11 @@ final dioProvider = Provider<Dio>((ref) {
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
+  final Ref ref;
 
   CustomInterceptor({
     required this.storage,
+    required this.ref,
   });
 
   // 1) 요청을 보낼때
@@ -33,9 +39,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    if (kDebugMode) {
-      print('[REQ] [${options.method}] ${options.uri}');
-    }
+    print('[REQ] [${options.method}] ${options.uri}');
 
     if (options.headers['accessToken'] == 'true') {
       // 헤더 삭제
@@ -79,9 +83,7 @@ class CustomInterceptor extends Interceptor {
     // 401에러가 났을때 (status code)
     // 토큰을 재발급 받는 시도를하고 토큰이 재발급되면
     // 다시 새로운 토큰으로 요청을한다.
-    if (kDebugMode) {
-      print('[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}');
-    }
+    print('[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}');
 
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
 
@@ -124,6 +126,15 @@ class CustomInterceptor extends Interceptor {
 
         return handler.resolve(response);
       } on DioError catch (e) {
+        // circular dependency error
+        // A, B
+        // A -> B의 친구
+        // B -> A의 친구
+        // A는 B의 친구구나
+        // A -> B -> A -> B -> A -> B
+        // ump -> dio -> ump -> dio
+        ref.read(authProvider.notifier).logout();
+
         return handler.reject(e);
       }
     }

@@ -63,9 +63,13 @@ class AuthProvider extends ChangeNotifier {
     GoRoute(
       path: '/login',
       name: LoginScreen.routeName,
-      builder: (_, __) => LoginScreen(),
+      builder: (_, __) => const LoginScreen(),
     ),
   ];
+
+  void logout(){
+    ref.read(userMeProvider.notifier).logout();
+  }
 
   // SplashScreen
   // 앱을 처음 시작했을때
