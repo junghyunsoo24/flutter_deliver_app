@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
-
 import '../../common/view/root_tab.dart';
 import '../../common/view/splash_screen.dart';
+import '../../restaurant/view/basket_screen.dart';
 import '../../restaurant/view/restaurant_detail_screen.dart';
 import '../model/user_model.dart';
 import 'package:flutter_deliver_app/user/provider/user_me_provider.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_deliver_app/user/repository/user_me_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../view/login_screen.dart';
 
 final authProvider = ChangeNotifierProvider<AuthProvider>((ref) {
@@ -47,9 +45,14 @@ class AuthProvider extends ChangeNotifier {
       ],
     ),
     GoRoute(
+      path: '/basket',
+      name: BasketScreen.routeName,
+      builder: (_, state) => const BasketScreen(),
+    ),
+    GoRoute(
       path: '/splash',
       name: SplashScreen.routeName,
-      builder: (_, __) => SplashScreen(),
+      builder: (_, __) => const SplashScreen(),
     ),
     GoRoute(
       path: '/login',

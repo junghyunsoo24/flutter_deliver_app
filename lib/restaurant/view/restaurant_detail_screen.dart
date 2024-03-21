@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletons/skeletons.dart';
 import '../../common/const/colors.dart';
 import '../../common/layout/default_layout.dart';
@@ -16,6 +17,8 @@ import '../model/restaurant_model.dart';
 import '../provider/restaurant_provider.dart';
 import '../provider/restaurant_rating_provider.dart';
 import 'package:badges/badges.dart' as badges;
+
+import 'basket_screen.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
   static String get routeName => 'restaruantDetail';
@@ -61,7 +64,7 @@ class _RestaurantDetailScreenState
     final basket = ref.watch(basketProvider);
 
     if (state == null) {
-      return const DefaultLayout(
+      return DefaultLayout(
         child: Center(
           child: CircularProgressIndicator(),
         ),
@@ -71,7 +74,9 @@ class _RestaurantDetailScreenState
     return DefaultLayout(
       title: '불타는 떡볶이',
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.pushNamed(BasketScreen.routeName);
+        },
         backgroundColor: PRIMARY_COLOR,
         child: badges.Badge(
           showBadge: basket.isNotEmpty,
@@ -85,9 +90,9 @@ class _RestaurantDetailScreenState
               fontSize: 10.0,
             ),
           ),
-          badgeStyle: const badges.BadgeStyle(
-            badgeColor  : Colors.white,
 
+          badgeStyle: const badges.BadgeStyle(
+            badgeColor: Colors.white,
           ),
           child: const Icon(
             Icons.shopping_basket_outlined,
